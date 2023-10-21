@@ -1,4 +1,9 @@
-export * as express from "npm:express";
+export {
+  opine,
+  json,
+  urlencoded,
+  serveStatic,
+} from "https://deno.land/x/opine@2.3.4/mod.ts";
 
 export * as mongodb from "npm:mongodb";
 

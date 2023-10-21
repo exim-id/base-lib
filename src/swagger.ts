@@ -1,6 +1,35 @@
 import { swaggerAutogen } from "../deps.ts";
-import { modules_dir, swagger_json_file } from "./path.ts";
+import {
+  modules_dir,
+  swagger_json_file,
+  swagger_json_ts_file,
+} from "./path.ts";
 import { Swagger } from "./env.ts";
+
+export const generatingSwaggerJson = async () => {
+  const swagger_json = await createSwaggerJson();
+  if (await fileExist(swagger_json_ts_file)) {
+    await Deno.remove(swagger_json_ts_file, { recursive: true });
+  }
+  await Deno.writeTextFile(
+    swagger_json_ts_file,
+    `export const swagger_json_cache = JSON.parse(\`${
+      JSON.stringify(swagger_json)
+    }\`);`,
+  );
+};
+
+export async function fileExist(path: string): Promise<boolean> {
+  try {
+    await Deno.stat(path);
+    return true;
+  } catch (error) {
+    if (error instanceof Deno.errors.NotFound) {
+      return false;
+    }
+    throw error;
+  }
+}
 
 export const createSwaggerJson = async () => {
   const result: any = await swaggerAutogen(swagger_json_file, [

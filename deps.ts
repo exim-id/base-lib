@@ -1,8 +1,8 @@
 export {
-  opine,
   json,
-  urlencoded,
+  opine,
   serveStatic,
+  urlencoded,
 } from "https://deno.land/x/opine@2.3.4/mod.ts";
 
 export * as mongodb from "npm:mongodb";
@@ -27,6 +27,9 @@ export * as crypto from "https://deno.land/std@0.177.0/node/crypto.ts";
 
 // @deno-types="npm:@types/supertest"
 export * as supertest from "npm:supertest";
+
+// @deno-types="npm:@types/express"
+export * as express from "npm:express";
 
 // @deno-types="npm:@types/cookie-parser"
 export * as cookieParser from "npm:cookie-parser";

@@ -34,9 +34,6 @@ export * as cookieParser from "npm:cookie-parser";
 // @deno-types="npm:@types/cors"
 export * as cors from "npm:cors";
 
-// @deno-types="npm:@types/express-fileupload"
-export * as expressFileupload from "npm:express-fileupload";
-
 export * as helmet from "npm:helmet";
 
 // @deno-types="npm:@types/morgan@1.9.4"

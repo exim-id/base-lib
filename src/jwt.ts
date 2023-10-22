@@ -1,5 +1,5 @@
 import { jsonwebtoken as jwt, Request, Response } from "../deps.ts";
-import { dbTrans } from "./db.ts";
+import { dbTransaction } from "./db.ts";
 import { Jwt } from "./env.ts";
 
 export const refreshTokenExpress = async (
@@ -19,7 +19,7 @@ export const refreshTokenExpress = async (
 
 export const refreshToken = async (token: string) => {
   let newToken = token;
-  await dbTrans(async (db) => {
+  await dbTransaction(async (db) => {
     const tokens = await db.collection("tokens").find({ token }).toArray();
     if (0 === tokens.length) throw new TokenNotFoundError("Token not found");
     const session = JWTdecrypt(newToken);

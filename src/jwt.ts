@@ -58,8 +58,12 @@ export const spelledTimeToEpoch = (time: string) => {
 
 export class TokenNotFoundError extends Error {}
 
-export function JWTdecrypt(token: string): jwt.JwtPayload | string {
-  return jwt.verify(token, Jwt.SECRET_TOKEN);
+export function JWTdecrypt(token: string): jwt.JwtPayload {
+  const result = jwt.verify(token, Jwt.SECRET_TOKEN);
+  if (typeof result === "string") {
+    throw new TokenNotFoundError("Failed to decrypt");
+  }
+  return result;
 }
 
 export const JWTencrypt = (subject: string, access: string) =>

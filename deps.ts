@@ -29,9 +29,6 @@ export * as crypto from "https://deno.land/std@0.177.0/node/crypto.ts";
 // @deno-types="npm:@types/supertest"
 export * as supertest from "npm:supertest";
 
-// @deno-types="npm:@types/cookie-parser@1.4.3"
-export * as cookieParser from "npm:cookie-parser@1.4.6";
-
 // @deno-types="npm:@types/cors@2.8.13"
 export * as cors from "npm:cors@2.8.5";
 

@@ -1,7 +1,7 @@
 //-> Unit Test
 export { assertEquals } from "https://deno.land/std@0.202.0/assert/mod.ts";
 export { delay } from "https://deno.land/std@0.202.0/async/delay.ts";
-import { superdeno } from "https://deno.land/x/superdeno/mod.ts";
+import { superdeno } from "https://deno.land/x/superdeno@4.8.0/mod.ts";
 
 //-> Basic Utilities
 export * as path from "https://deno.land/std@0.202.0/path/mod.ts";

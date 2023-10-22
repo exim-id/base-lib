@@ -35,7 +35,8 @@ export * as mongodb from "npm:mongodb";
 export { Mutex } from "https://deno.land/x/async@v2.0.2/mutex.ts";
 
 //-> Validator & Key Access
-export { z } from "npm:zod";
+export type { AnyZodObject } from "npm:zod";
+export { z, ZodError } from "npm:zod";
 // @deno-types="npm:@types/jsonwebtoken@9.0.0"
 export * as jsonwebtoken from "npm:jsonwebtoken@9.0.2";
 

@@ -1,3 +1,9 @@
+export type {
+  Application,
+  NextFunction,
+  OpineRequest as Request,
+  OpineResponse as Response,
+} from "https://deno.land/x/opine@2.3.4/mod.ts";
 export {
   json,
   opine,

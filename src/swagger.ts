@@ -1,4 +1,10 @@
-import { swaggerAutogen } from "../deps.ts";
+import { Application, Status, swaggerAutogen } from "../deps.ts";
+import {
+  main_js,
+  swagger_html,
+  swagger_ui_bundle_js,
+  swagger_ui_standalone_preset_js,
+} from "../file_cache.ts";
 import { modules_dir, swagger_json_file } from "./path.ts";
 import { Swagger } from "./env.ts";
 import { fileExist } from "./helper.ts";
@@ -14,7 +20,7 @@ export const createSwaggerJson = async () => {
   return false;
 };
 
-const doc = {
+export const doc = {
   info: {
     title: Swagger.APP_NAME,
     version: Swagger.APP_VERSION,
@@ -54,4 +60,23 @@ const doc = {
     },
   },
   components: {}, // by default: empty object (OpenAPI 3.x)
+};
+
+export const route = async (app: Application) => {
+  const swagger_json = await createSwaggerJson();
+  if (swagger_json) {
+    app.get("/swagger.json", (_, res) => res.json(swagger_json));
+
+    app.get("/swagger", (_, res) => res.send(swagger_html));
+    app.get("/cache/:file", (req, res) => {
+      const { file } = req.params;
+      res.set("content-type", "text/javascript");
+      if (file == "main.js") return res.send(main_js);
+      if (file == "swagger-ui-bundle.js") return res.send(swagger_ui_bundle_js);
+      if (file == "swagger-ui-standalone-preset.js") {
+        return res.send(swagger_ui_standalone_preset_js);
+      }
+      return res.setStatus(Status.NotFound).send("not found...");
+    });
+  }
 };

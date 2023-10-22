@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 import { mongodb, Mutex } from "../deps.ts";
 import { Mongo } from "./env.ts";
 

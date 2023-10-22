@@ -57,3 +57,34 @@ const cliCreate = () => {
     lookup: null,
   });
 };
+
+export const dbPaginate = async (
+  collection_name: string,
+  show: number,
+  page: number,
+  query = {},
+) => {
+  return await dbConnection(async (db) => {
+    const collection = db.collection(collection_name);
+
+    const totalDocuments = await collection.countDocuments();
+    const totalPage = Math.ceil(totalDocuments / show);
+
+    const data = await collection.find(query)
+      .skip((page - 1) * show)
+      .limit(show)
+      .toArray();
+
+    return {
+      data,
+      meta: {
+        pagination: {
+          current_page: page,
+          per_page: show,
+          total: totalDocuments,
+          last_page: totalPage,
+        },
+      },
+    };
+  });
+};

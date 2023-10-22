@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 
-import { Status } from "../deps.ts";
+import { jsonwebtoken, Request, Response, Status } from "../deps.ts";
+import { AuthError } from "./jwt.ts";
 
 interface IData {
   [key: string]: any;
@@ -95,6 +96,28 @@ const internalServerError = (from: string, error: Error) => {
 const badRequest = (message = "Bad Request") =>
   errorResponse({ message, statusCode: Status.BadRequest });
 
+export class DataNotFoundError extends Error {}
+
+const opineErrorHandler = (req: Request, res: Response, e: Error) => {
+  let responseBody: IError;
+  const authErrors = [
+    AuthError,
+    jsonwebtoken.JsonWebTokenError,
+    jsonwebtoken.NotBeforeError,
+    jsonwebtoken.TokenExpiredError,
+  ];
+  const notFoundErrors = [DataNotFoundError];
+  const badReqErrors: (typeof Error)[] = [];
+  if (authErrors.some((cls) => e instanceof cls)) {
+    responseBody = notAuthorized(e.message);
+  } else if (notFoundErrors.some((cls) => e instanceof cls)) {
+    responseBody = notFound(e.message);
+  } else if (badReqErrors.some((cls) => e instanceof cls)) {
+    responseBody = badRequest(e.message);
+  } else responseBody = internalServerError(`${req.method} ${req.url}`, e);
+  res.setStatus(responseBody.statusCode).json(responseBody);
+};
+
 export default {
   success,
   error: errorResponse,
@@ -102,4 +125,5 @@ export default {
   notAuthorized,
   internalServerError,
   badRequest,
+  opineErrorHandler,
 };

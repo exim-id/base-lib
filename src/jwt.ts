@@ -7,12 +7,12 @@ export const refreshTokenExpress = async (
   res: Response,
 ) => {
   let token = req.headers.get("authorization");
-  if (!token) throw new TokenNotFoundError("Token not found");
+  if (!token) throw new AuthError("Token not found");
   if (!token.startsWith("Bearer ")) {
-    throw new TokenNotFoundError("Invalid token format");
+    throw new AuthError("Invalid token format");
   }
   token = token.replace("Bearer ", "");
-  if (0 === token.length) throw new TokenNotFoundError("Token not found");
+  if (0 === token.length) throw new AuthError("Token not found");
   token = await refreshToken(token.replace("Bearer ", ""));
   res.setHeader("Authorization", token);
 };
@@ -21,7 +21,7 @@ export const refreshToken = async (token: string) => {
   let newToken = token;
   await dbTransaction(async (db) => {
     const tokens = await db.collection("tokens").find({ token }).toArray();
-    if (0 === tokens.length) throw new TokenNotFoundError("Token not found");
+    if (0 === tokens.length) throw new AuthError("Token not found");
     const session = JWTdecrypt(newToken);
     newToken = JWTencrypt(session.sub || "", "" + session["access"]);
     await db.collection("tokens").deleteOne({ token });
@@ -56,12 +56,12 @@ export const spelledTimeToEpoch = (time: string) => {
   return Date.now();
 };
 
-export class TokenNotFoundError extends Error {}
+export class AuthError extends Error {}
 
 export function JWTdecrypt(token: string): jwt.JwtPayload {
   const result = jwt.verify(token, Jwt.SECRET_TOKEN);
   if (typeof result === "string") {
-    throw new TokenNotFoundError("Failed to decrypt");
+    throw new AuthError("Failed to decrypt");
   }
   return result;
 }

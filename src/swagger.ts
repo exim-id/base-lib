@@ -6,7 +6,7 @@ import {
   swagger_ui_standalone_preset_js,
 } from "../file_cache.ts";
 import { modules_dir, swagger_json_file } from "./path.ts";
-import { Swagger } from "./env.ts";
+import { SwaggerEnv } from "./env.ts";
 import { fileExist } from "./helper.ts";
 
 export const createSwaggerJson = async () => {
@@ -22,22 +22,22 @@ export const createSwaggerJson = async () => {
 
 export const doc = {
   info: {
-    title: Swagger.APP_NAME,
-    version: Swagger.APP_VERSION,
-    description: Swagger.APP_DESCRIPTION,
+    title: SwaggerEnv.APP_NAME,
+    version: SwaggerEnv.APP_VERSION,
+    description: SwaggerEnv.APP_DESCRIPTION,
     termsOfService: "http://swagger.io/terms/",
     contact: {
-      name: Swagger.CONTACT_NAME,
-      email: Swagger.CONTACT_EMAIL,
+      name: SwaggerEnv.CONTACT_NAME,
+      email: SwaggerEnv.CONTACT_EMAIL,
     },
     license: {
       name: "MIT",
       url: "https://opensource.org/licenses/MIT",
     },
   },
-  host: Swagger.SWAGGER_URL,
+  host: SwaggerEnv.SWAGGER_URL,
   basePath: "/",
-  schemes: Swagger.APP_SCHEMES,
+  schemes: SwaggerEnv.APP_SCHEMES,
   consumes: ["application/json"],
   produces: ["application/json"],
   tags: [

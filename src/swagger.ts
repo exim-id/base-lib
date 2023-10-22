@@ -1,4 +1,6 @@
-import { Application, Status, swaggerAutogen } from "../deps.ts";
+// deno-lint-ignore-file no-explicit-any
+
+import { Application, Status } from "../deps.ts";
 import {
   main_js,
   swagger_html,
@@ -8,6 +10,8 @@ import {
 import { modules_dir, swagger_json_file } from "./path.ts";
 import { SwaggerEnv } from "./env.ts";
 import { fileExist } from "./helper.ts";
+
+import swaggerAutogen from "npm:swagger-autogen@2.23.1";
 
 export const createSwaggerJson = async () => {
   if (await fileExist(`${modules_dir}/index.ts`)) {

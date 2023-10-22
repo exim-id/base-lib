@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 // ================================================================================================
 // ================================================================================================
 // ================================================================================================
@@ -29,7 +31,7 @@ export const generate = {
     let result = "";
     for (let i = 0; i < length; i++) {
       result += all_characters.charAt(
-        Math.floor(Math.random() * all_characters.length)
+        Math.floor(Math.random() * all_characters.length),
       );
     }
     return result;
@@ -38,7 +40,7 @@ export const generate = {
     let result = "";
     for (let i = 0; i < length; i++) {
       result += otp_characters.charAt(
-        Math.floor(Math.random() * otp_characters.length)
+        Math.floor(Math.random() * otp_characters.length),
       );
     }
     return result;

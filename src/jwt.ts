@@ -1,18 +1,18 @@
-import { express, jwt } from "../deps.ts";
+import { jsonwebtoken as jwt, Request, Response } from "../deps.ts";
 import { dbTrans } from "./db.ts";
 import { Jwt } from "./env.ts";
 
 export const refreshTokenExpress = async (
-  req: express.Request,
-  res: express.Response,
+  req: Request,
+  res: Response,
 ) => {
-  let token = req.header("Authorization");
+  let token = req.headers.get("authorization");
   if (!token) throw new TokenNotFoundError("Token not found");
   if (!token.startsWith("Bearer ")) {
     throw new TokenNotFoundError("Invalid token format");
   }
   token = await refreshToken(token.replace("Bearer ", ""));
-  res.header("Authorization").set(token);
+  res.setHeader("Authorization", token);
 };
 
 export const refreshToken = async (token: string) => {

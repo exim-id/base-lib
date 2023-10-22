@@ -2,6 +2,14 @@ import { base64, CryptoJS } from "../deps.ts";
 
 import { Server } from "./env.ts";
 
+export const isStringBlank = (s: string | null | undefined) => {
+  if (!s) return true;
+  if (s.length === 0) return true;
+  const sa = s.split("");
+  return sa.every((v) => v === " ") || sa.every((v) => v === "_") ||
+    sa.every((v) => v === "-");
+};
+
 const reverse_secret_key = String(Server.secretKey)
   .split("")
   .reverse()

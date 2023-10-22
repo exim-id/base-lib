@@ -92,10 +92,14 @@ const internalServerError = (from: string, error: Error) => {
   });
 };
 
+const badRequest = (message = "Bad Request") =>
+  errorResponse({ message, statusCode: Status.BadRequest });
+
 export default {
   success,
   error: errorResponse,
   notFound,
   notAuthorized,
   internalServerError,
+  badRequest,
 };

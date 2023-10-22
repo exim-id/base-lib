@@ -1,8 +1,8 @@
 export {
-  opine,
   json,
-  urlencoded,
+  opine,
   serveStatic,
+  urlencoded,
 } from "https://deno.land/x/opine@2.3.4/mod.ts";
 
 export * as mongodb from "npm:mongodb";

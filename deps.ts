@@ -50,3 +50,7 @@ export { default as helmet } from "npm:helmet@7.0.0";
 //-> Advance Utilities
 // @deno-types="npm:@types/node-cron@3.0.8"
 export * as nodeCron from "npm:node-cron@3.0.2";
+
+//-> Encryption
+// @deno-types="npm:@types/crypto-js@4.1.2"
+export { default as CryptoJS } from "npm:crypto-js@4.1.1";

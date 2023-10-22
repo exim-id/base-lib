@@ -7,9 +7,9 @@ import {
   swagger_ui_bundle_js,
   swagger_ui_standalone_preset_js,
 } from "../file_cache.ts";
-import { modules_dir, swagger_json_file } from "./path.ts";
+import { modules_dir, swagger_json_file } from "./paths.ts";
 import { SwaggerEnv } from "./env.ts";
-import { fileExist } from "./helper.ts";
+import { fileExist } from "./helpers.ts";
 
 import swaggerAutogen from "npm:swagger-autogen@2.23.1";
 

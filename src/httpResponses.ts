@@ -9,8 +9,6 @@ interface IData {
 interface IPagination {
   current_page: number;
   per_page: number;
-  from: number;
-  to: number;
   total: number;
   last_page: number;
 }

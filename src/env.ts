@@ -1,6 +1,6 @@
 import { path } from "../deps.ts";
-import { fileExist } from "./helper.ts";
-import { project_root } from "./path.ts";
+import { fileExist } from "./helpers.ts";
+import { project_root } from "./paths.ts";
 
 // ==================================================================== //
 // ==================================================================== //

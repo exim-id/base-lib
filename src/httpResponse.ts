@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 import { Status } from "../deps.ts";
 
 interface IData {

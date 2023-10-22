@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-const
-
 import { path } from "../deps.ts";
 import { fileExist } from "./helper.ts";
 import { project_root } from "./path.ts";
@@ -32,13 +30,13 @@ export const Server = {
   tz: Deno.env.get("TZ") || "Asia/Jakarta",
 };
 
-export const Swagger = {
+export const SwaggerEnv = {
   SWAGGER_URL: Deno.env.get("SWAGGER_URL") || `localhost:${Server.port}`,
 
   APP_NAME: Deno.env.get("APP_NAME") || "app name",
   APP_VERSION: Deno.env.get("APP_VERSION") || "1.0.0",
-  APP_DESCRIPTION:
-    Deno.env.get("APP_DESCRIPTION") || "please complete information in .env",
+  APP_DESCRIPTION: Deno.env.get("APP_DESCRIPTION") ||
+    "please complete information in .env",
   APP_SCHEMES: Deno.env.get("APP_SCHEMES")
     ? String(Deno.env.get("APP_SCHEMES")).toLowerCase().split("|")
     : ["http", "https"],
@@ -54,7 +52,7 @@ export const Mongo = {
 };
 
 export const OTP_EXPIRED_MINUTE = Number(
-  Deno.env.get("OTP_EXPIRED_MINUTE") || 3
+  Deno.env.get("OTP_EXPIRED_MINUTE") || 3,
 );
 
 export const Jwt = {

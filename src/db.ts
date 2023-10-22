@@ -4,7 +4,7 @@ import { mongodb, Mutex } from "../deps.ts";
 import { Mongo } from "./env.ts";
 
 export const dbTransaction = async (
-  exec = async (_: mongodb.Db): Promise<any> => {},
+  exec = async (_: mongodb.Db) => {},
 ) => {
   const mu = new Mutex();
   await mu.acquire();
@@ -30,7 +30,7 @@ export const dbTransaction = async (
 };
 
 export const dbConnection = async (
-  exec = async (_: mongodb.Db): Promise<any> => {},
+  exec = async (_: mongodb.Db) => {},
 ) => {
   const cli = cliCreate();
   try {

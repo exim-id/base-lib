@@ -7,7 +7,8 @@ export { default as request } from "npm:supertest";
 //-> Basic Utilities
 export * as path from "https://deno.land/std@0.202.0/path/mod.ts";
 export * as crypto from "https://deno.land/std@0.177.0/node/crypto.ts";
-export { default as uuid } from "npm:uuid@9.0.0";
+// @deno-types="npm:@types/uuid@9.0.0"
+export { v4 as uuidV4 } from "npm:uuid@9.0.0";
 export * as base64 from "https://deno.land/std@0.203.0/encoding/base64.ts";
 
 //-> Server RestAPI
@@ -37,7 +38,7 @@ export { Mutex } from "https://deno.land/x/async@v2.0.2/mutex.ts";
 //-> Validator & Key Access
 export { z } from "npm:zod";
 // @deno-types="npm:@types/jsonwebtoken@9.0.0"
-export { default as jsonwebtoken } from "npm:jsonwebtoken@9.0.2";
+export * as jsonwebtoken from "npm:jsonwebtoken@9.0.2";
 
 //-> Middlewares
 // @deno-types="npm:@types/cors@2.8.13"
@@ -48,4 +49,4 @@ export { default as helmet } from "npm:helmet@7.0.0";
 
 //-> Advance Utilities
 // @deno-types="npm:@types/node-cron@3.0.8"
-export { default as nodeCron } from "npm:node-cron@3.0.2";
+export * as nodeCron from "npm:node-cron@3.0.2";

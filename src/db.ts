@@ -1,7 +1,9 @@
-import { Mutex, mongodb } from "../deps.ts";
+import { mongodb, Mutex } from "../deps.ts";
 import { Mongo } from "./env.ts";
 
-export const dbTrans = async (exec = async (_: mongodb.Db) => {}) => {
+export const dbTransaction = async (
+  exec = async (_: mongodb.Db): Promise<any> => {},
+) => {
   const mu = new Mutex();
   await mu.acquire();
   const cli = cliCreate();
@@ -10,8 +12,9 @@ export const dbTrans = async (exec = async (_: mongodb.Db) => {}) => {
     const session = cli.startSession();
     try {
       session.startTransaction();
-      await exec(cli.db(Mongo.dbName));
+      const result = await exec(cli.db(Mongo.dbName));
       await session.commitTransaction();
+      return result;
     } catch (e) {
       await session.abortTransaction();
       throw e;
@@ -24,7 +27,9 @@ export const dbTrans = async (exec = async (_: mongodb.Db) => {}) => {
   }
 };
 
-export const dbConnection = async (exec = async (_: mongodb.Db) => {}) => {
+export const dbConnection = async (
+  exec = async (_: mongodb.Db): Promise<any> => {},
+) => {
   const cli = cliCreate();
   try {
     await cli.connect();

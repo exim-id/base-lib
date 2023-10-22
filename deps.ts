@@ -7,6 +7,7 @@ export type {
 export {
   json,
   opine,
+  Router,
   serveStatic,
   urlencoded,
 } from "https://deno.land/x/opine@2.3.4/mod.ts";

@@ -28,6 +28,7 @@ export const Server = {
   isLocal: String(ENVIRONMENT).includes("local"),
   port: Number(Deno.env.get("PORT") || "8080"),
   tz: Deno.env.get("TZ") || "Asia/Jakarta",
+  restPort: parseInt(Deno.env.get("REST_PORT") || "8080"),
 };
 
 export const SwaggerEnv = {

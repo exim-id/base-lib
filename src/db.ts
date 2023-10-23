@@ -7,7 +7,7 @@ export const dbTransaction = async <T>(
   exec = (_: mongodb.Db): Promise<T> => {
     const example: any = true;
     return example;
-  },
+  }
 ): Promise<T> => {
   const mu = new Mutex();
   await mu.acquire();
@@ -36,7 +36,7 @@ export const dbConnection = async <T>(
   exec = (_: mongodb.Db): Promise<T> => {
     const example: any = true;
     return example;
-  },
+  }
 ): Promise<T> => {
   const cli = cliCreate();
   try {
@@ -60,27 +60,37 @@ const cliCreate = () => {
 
 export const dbPaginate = async (
   collection_name: string,
-  show: number,
-  page: number,
   query = {},
+  show: string | undefined,
+  page: string | undefined
 ) => {
+  let use_show = 10;
+  if (show) {
+    use_show = parseInt(show);
+  }
+  let use_page = 1;
+  if (page) {
+    use_page = parseInt(page);
+  }
+
   return await dbConnection(async (db) => {
     const collection = db.collection(collection_name);
 
     const totalDocuments = await collection.countDocuments();
-    const totalPage = Math.ceil(totalDocuments / show);
+    const totalPage = Math.ceil(totalDocuments / use_show);
 
-    const data = await collection.find(query)
-      .skip((page - 1) * show)
-      .limit(show)
+    const data = await collection
+      .find(query)
+      .skip((use_page - 1) * use_show)
+      .limit(use_show)
       .toArray();
 
     return {
       data,
       meta: {
         pagination: {
-          current_page: page,
-          per_page: show,
+          current_page: use_page,
+          per_page: use_show,
           total: totalDocuments,
           last_page: totalPage,
         },

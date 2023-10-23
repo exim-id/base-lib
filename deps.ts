@@ -28,7 +28,7 @@ export {
 
 //-> Server gRPC
 export { GrpcServer } from "https://deno.land/x/grpc_basic@0.4.7/server.ts";
-export { getClient } from "https://deno.land/x/grpc_basic@0.4.7/client.ts";
+export * as gRPC from "https://deno.land/x/grpc_basic@0.4.7/client.ts";
 
 //-> Database
 export * as mongodb from "npm:mongodb";

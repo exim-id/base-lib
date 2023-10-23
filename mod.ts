@@ -10,3 +10,4 @@ export * from "./src/middlewares.ts";
 export * from "./src/paths.ts";
 export * as Swagger from "./src/swagger.ts";
 export * from "./src/utils.ts";
+export * from "./src/minio.ts";

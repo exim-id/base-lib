@@ -54,3 +54,5 @@ export * as nodeCron from "npm:node-cron@3.0.2";
 //-> Encryption
 // @deno-types="npm:@types/crypto-js@4.1.2"
 export { default as CryptoJS } from "npm:crypto-js@4.1.1";
+
+export * as minio from "npm:minio";

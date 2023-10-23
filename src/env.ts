@@ -67,3 +67,11 @@ export const Reporter = {
   BEARER_TOKEN: Deno.env.get("REPORT_BEARER_TOKEN"),
   GROUP_ID: Deno.env.get("REPORT_GROUP_ID"),
 };
+
+export const Minio = {
+  MINIO_URL: Deno.env.get("MINIO_URL") || "localhost",
+  MINIO_PORT: parseInt(Deno.env.get("MINIO_PORT") || "9000"),
+  MINIO_SSL: (Deno.env.get("MINIO_SSL") || "false") === "true",
+  MINIO_ACCESS_KEY: Deno.env.get("MINIO_ACCESS_KEY") || "username",
+  MINIO_SECRET_KEY: Deno.env.get("MINIO_SECRET_KEY") || "password",
+};

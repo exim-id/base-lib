@@ -1,27 +1,15 @@
-import { jsonwebtoken as jwt, Request, Response, uuidV4 } from "../deps.ts";
+import { jsonwebtoken as jwt, uuidV4 } from "../deps.ts";
 import { dbTransaction } from "./db.ts";
 import { Jwt } from "./env.ts";
 
-export const refreshTokenExpress = async (
-  req: Request,
-  res: Response,
-) => {
-  let token = req.headers.get("authorization");
-  if (!token) throw new AuthError("Token not found");
-  if (!token.startsWith("Bearer ")) {
-    throw new AuthError("Invalid token format");
-  }
-  token = token.replace("Bearer ", "");
-  if (0 === token.length) throw new AuthError("Token not found");
-  token = await refreshToken(token.replace("Bearer ", ""));
-  res.setHeader("Authorization", token);
-};
-
-export const refreshToken = async (token: string) => {
+export const refreshJti = async (token: string) => {
   let newToken = token;
   await dbTransaction(async (db) => {
     let session = JWTdecrypt(newToken);
-    const tokens = await db.collection("tokens").find({ sub: session.sub })
+    const tokens = await db.collection("tokens").find({
+      sub: session.sub,
+      access: session["access"],
+    })
       .toArray();
     if (0 === tokens.length) throw new AuthError("Token not found");
     newToken = JWTencrypt(session.sub || "", "" + session["access"]);

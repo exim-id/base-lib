@@ -1,4 +1,4 @@
-import { jsonwebtoken as jwt, Request, Response } from "../deps.ts";
+import { jsonwebtoken as jwt, Request, Response, uuidV4 } from "../deps.ts";
 import { dbTransaction } from "./db.ts";
 import { Jwt } from "./env.ts";
 
@@ -20,13 +20,15 @@ export const refreshTokenExpress = async (
 export const refreshToken = async (token: string) => {
   let newToken = token;
   await dbTransaction(async (db) => {
-    const tokens = await db.collection("tokens").find({ token }).toArray();
+    let session = JWTdecrypt(newToken);
+    const tokens = await db.collection("tokens").find({ sub: session.sub })
+      .toArray();
     if (0 === tokens.length) throw new AuthError("Token not found");
-    const session = JWTdecrypt(newToken);
     newToken = JWTencrypt(session.sub || "", "" + session["access"]);
-    await db.collection("tokens").deleteOne({ token });
+    await db.collection("tokens").deleteOne({ jti: session.jti });
+    session = JWTdecrypt(newToken);
     await db.collection("tokens").insertOne({
-      token: newToken,
+      jti: session.jti,
       sub: session.sub,
       access: session["access"],
     }, { maxTimeMS: spelledTimeToEpoch(Jwt.EXPIRED_TOKEN) });
@@ -71,4 +73,5 @@ export const JWTencrypt = (subject: string, access: string) =>
     subject,
     algorithm: "HS512",
     expiresIn: Jwt.EXPIRED_TOKEN,
+    jwtid: uuidV4(),
   });

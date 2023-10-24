@@ -50,11 +50,11 @@ export const dbConnection = async <T>(
 const cliCreate = () => {
   return new mongodb.MongoClient(Mongo.url, {
     auth: { password: Mongo.dbPass, username: Mongo.dbUser },
-    family: null,
-    hints: null,
-    localAddress: null,
-    localPort: null,
-    lookup: null,
+    family: 6,
+    hints: 0,
+    localAddress: '127.0.0.1',
+    localPort: 27017,
+    lookup: ()=>{},
   });
 };
 

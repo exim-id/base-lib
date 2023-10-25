@@ -7,7 +7,7 @@ export const dbTransaction = async <T>(
   exec = (_: mongodb.Db): Promise<T> => {
     const example: any = true;
     return example;
-  }
+  },
 ): Promise<T> => {
   const mu = new Mutex();
   await mu.acquire();
@@ -36,7 +36,7 @@ export const dbConnection = async <T>(
   exec = (_: mongodb.Db): Promise<T> => {
     const example: any = true;
     return example;
-  }
+  },
 ): Promise<T> => {
   const cli = cliCreate();
   try {
@@ -52,17 +52,17 @@ const cliCreate = () => {
     auth: { password: Mongo.dbPass, username: Mongo.dbUser },
     family: 6,
     hints: 0,
-    localAddress: '127.0.0.1',
+    localAddress: "127.0.0.1",
     localPort: 27017,
-    lookup: ()=>{},
+    lookup: () => {},
   });
 };
 
 export const dbPaginate = async (
-  collection_name: string,
+  aggr: (_: mongodb.Db) => mongodb.Collection<mongodb.BSON.Document>,
   query = {},
   show: string | undefined,
-  page: string | undefined
+  page: string | undefined,
 ) => {
   let use_show = 10;
   if (show) {
@@ -74,7 +74,7 @@ export const dbPaginate = async (
   }
 
   return await dbConnection(async (db) => {
-    const collection = db.collection(collection_name);
+    const collection = aggr(db);
 
     const totalDocuments = await collection.countDocuments();
     const totalPage = Math.ceil(totalDocuments / use_show);

@@ -57,7 +57,7 @@ export function JWTdecrypt(token: string): jwt.JwtPayload {
 }
 
 export const JWTencrypt = (subject: string, access: string) =>
-  jwt.sign({ access }, Jwt.SECRET_TOKEN, {
+  jwt.sign({ access, created: Date.now() }, Jwt.SECRET_TOKEN, {
     subject,
     algorithm: "HS512",
     expiresIn: Jwt.EXPIRED_TOKEN,

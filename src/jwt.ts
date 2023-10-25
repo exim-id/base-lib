@@ -1,11 +1,39 @@
-import { jsonwebtoken as jwt, uuidV4 } from "../deps.ts";
-import { dbTransaction } from "./db.ts";
+import { jsonwebtoken as jwt, Request, Response, uuidV4 } from "../deps.ts";
+import { dbConnection, dbTransaction } from "./db.ts";
 import { Jwt } from "./env.ts";
 
-export const refreshJti = async (token: string) => {
+export const rbac = async (req: Request, res: Response, roles: string[]) => {
+  let token = req.headers.get("Authorization");
+  if (!token || !token.startsWith("Bearer")) {
+    throw new AuthError("Token not found");
+  }
+  token = token.replace("Bearer ", "");
+  token = await refreshJti(token, "/user/update-password" === req.path);
+  const session = JWTdecrypt(token);
+  await dbConnection(async (db) => {
+    const user = await db.collection("users").findOne({
+      id: session.sub,
+      deleted: false,
+    });
+    if (!user) throw new AuthError("Token not found");
+    if (0 < roles.length) {
+      const userRoles: string[] = user.roles;
+      if (!userRoles.some(roles.includes)) {
+        throw new AuthError("Invalid access");
+      }
+    }
+  });
+  res.locals["user"] = session.sub;
+  res.setHeader("Authorization", token);
+};
+
+export const refreshJti = async (token: string, forcedChange: boolean) => {
   let newToken = token;
+  let session = JWTdecrypt(newToken);
+  const now = Date.now() + (1000 * 60 * 60 * 2),
+    exp = session.exp + session["created"];
+  if (now < exp && !forcedChange) return newToken;
   await dbTransaction(async (db) => {
-    let session = JWTdecrypt(newToken);
     const tokens = await db.collection("tokens").find({
       sub: session.sub,
       access: session["access"],

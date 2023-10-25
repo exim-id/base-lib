@@ -3,18 +3,18 @@
 import { jsonwebtoken, Request, Response, Status } from "../deps.ts";
 import { AuthError } from "./jwt.ts";
 
-interface IData {
+export interface IData {
   [key: string]: any;
 }
 
-interface IPagination {
+export interface IPagination {
   current_page: number;
   per_page: number;
   total: number;
   last_page: number;
 }
 
-interface ISuccess {
+export interface ISuccess {
   message: string;
   statusCode: number;
   success: boolean;
@@ -23,7 +23,7 @@ interface ISuccess {
     pagination: IPagination;
   };
 }
-interface ISuccessResponse {
+export interface ISuccessResponse {
   message?: string;
   statusCode?: number;
   success?: boolean;
@@ -49,13 +49,13 @@ const success = (response: ISuccessResponse): ISuccess => {
   return new_response;
 };
 
-interface IError {
+export interface IError {
   message: string;
   statusCode: number;
   success: boolean;
   data: IData[] | IData;
 }
-interface IErrorResponse {
+export interface IErrorResponse {
   message?: string;
   statusCode?: number;
   success?: boolean;

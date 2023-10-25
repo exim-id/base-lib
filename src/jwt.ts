@@ -9,8 +9,8 @@ export const rbac = async (req: Request, res: Response, roles: string[]) => {
   }
   token = token.replace("Bearer ", "");
   token = await refreshJti(token, "/user/update-password" === req.path);
-  const session = JWTdecrypt(token);
-  await dbConnection(async (db) => {
+  const session = await dbConnection(async (db) => {
+    const session = JWTdecrypt(token!);
     const user = await db.collection("users").findOne({
       id: session.sub,
       deleted: false,
@@ -22,18 +22,20 @@ export const rbac = async (req: Request, res: Response, roles: string[]) => {
         throw new AuthError("Invalid access");
       }
     }
+    return session;
   });
   res.locals["user"] = session.sub;
   res.setHeader("Authorization", token);
+  return true;
 };
 
 export const refreshJti = async (token: string, forcedChange: boolean) => {
-  let newToken = token;
-  let session = JWTdecrypt(newToken);
-  const now = Date.now() + (1000 * 60 * 2),
-    exp = session.exp + session["created"];
-  if (now < exp && !forcedChange) return newToken;
-  await dbTransaction(async (db) => {
+  return await dbTransaction(async (db) => {
+    let newToken = token;
+    let session = JWTdecrypt(newToken);
+    const now = Date.now() + (1000 * 60 * 2),
+      exp = session.exp + session["created"];
+    if (now < exp && !forcedChange) return newToken;
     const tokens = await db.collection("tokens").find({
       sub: session.sub,
       access: session["access"],
@@ -48,8 +50,8 @@ export const refreshJti = async (token: string, forcedChange: boolean) => {
       sub: session.sub,
       access: session["access"],
     }, { maxTimeMS: spelledTimeToEpoch(Jwt.EXPIRED_TOKEN) });
+    return newToken;
   });
-  return newToken;
 };
 
 export const spelledTimeToEpoch = (time: string) => {

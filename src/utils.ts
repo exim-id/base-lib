@@ -2,6 +2,18 @@ import { base64, CryptoJS } from "../deps.ts";
 
 import { Server } from "./env.ts";
 
+export async function asyncIterableToArray<T>(iter: AsyncIterable<T>) {
+  const array: T[] = [];
+  for await (const data of iter) array.push(data);
+  return array;
+}
+
+export function iterableToArray<T>(iter: Iterable<T>) {
+  const array: T[] = [];
+  for (const data of iter) array.push(data);
+  return array;
+}
+
 export const isStringBlank = (s: string | null | undefined) => {
   if (!s) return true;
   if (s.length === 0) return true;

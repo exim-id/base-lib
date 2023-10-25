@@ -30,7 +30,7 @@ export const rbac = async (req: Request, res: Response, roles: string[]) => {
 export const refreshJti = async (token: string, forcedChange: boolean) => {
   let newToken = token;
   let session = JWTdecrypt(newToken);
-  const now = Date.now() + (1000 * 60 * 60 * 2),
+  const now = Date.now() + (1000 * 60 * 2),
     exp = session.exp + session["created"];
   if (now < exp && !forcedChange) return newToken;
   await dbTransaction(async (db) => {

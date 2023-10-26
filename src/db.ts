@@ -65,9 +65,10 @@ const cliCreate = () => {
 
 export const dbPaginate = async (
   aggr: (_: mongodb.Db) => mongodb.Collection<mongodb.BSON.Document>,
-  query = {},
+  query: mongodb.Filter<mongodb.BSON.Document>,
   show: string | undefined,
   page: string | undefined,
+  sort: mongodb.FindOptions<mongodb.BSON.Document> | undefined,
 ) => {
   let use_show = 10;
   if (show) {
@@ -85,7 +86,7 @@ export const dbPaginate = async (
     const totalPage = Math.ceil(totalDocuments / use_show);
 
     const data = await collection
-      .find(query)
+      .find(query, sort)
       .skip((use_page - 1) * use_show)
       .limit(use_show)
       .toArray();

@@ -10,6 +10,7 @@ const env_file_path = path.join(project_root, ".env");
 
 await dotenv.load({
   envPath: env_file_path,
+  allowEmptyValues: true,
 });
 
 if (await fileExist(env_file_path)) {

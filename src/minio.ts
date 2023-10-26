@@ -1,7 +1,8 @@
+import { Readable } from "https://deno.land/std@0.177.0/node/stream.ts";
 import { minio } from "../deps.ts";
 import { Minio } from "./env.ts";
 
-export const readableToBuffer = (read: globalThis.ReadableStream) =>
+export const readableToBuffer = (read: Readable) =>
   new Promise((resolve, reject) => {
   });
 

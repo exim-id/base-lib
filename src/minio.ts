@@ -4,6 +4,8 @@ import { Minio } from "./env.ts";
 
 export const readableToBuffer = (read: Readable) =>
   new Promise((resolve, reject) => {
+    let data = global.Buffer.alloc(0);
+    read.on("error", reject);
   });
 
 export const minioClient = async () => {

@@ -6,7 +6,7 @@ import { project_root } from "./paths.ts";
 // ==================================================================== //
 //-> Read .env
 
-await dotenv.load();
+await dotenv.load({ envPath: project_root });
 
 const env_file_path = path.join(project_root, ".env");
 if (await fileExist(env_file_path)) {

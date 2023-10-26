@@ -82,7 +82,7 @@ export const dbPaginate = async (
   return await dbConnection(async (db) => {
     const collection = aggr(db);
 
-    const totalDocuments = await collection.countDocuments();
+    const totalDocuments = await collection.countDocuments(query, sort);
     const totalPage = Math.ceil(totalDocuments / use_show);
 
     const data = await collection

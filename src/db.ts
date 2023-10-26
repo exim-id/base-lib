@@ -68,7 +68,7 @@ export const dbPaginate = async (
   query: mongodb.Filter<mongodb.BSON.Document>,
   show: string | undefined,
   page: string | undefined,
-  sort: mongodb.FindOptions<mongodb.BSON.Document> | undefined,
+  sort?: mongodb.FindOptions<mongodb.BSON.Document> | undefined,
 ) => {
   let use_show = 10;
   if (show) {

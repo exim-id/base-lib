@@ -75,4 +75,5 @@ export const Minio = {
   MINIO_SSL: (Deno.env.get("MINIO_SSL") || "false") === "true",
   MINIO_ACCESS_KEY: Deno.env.get("MINIO_ACCESS_KEY") || "username",
   MINIO_SECRET_KEY: Deno.env.get("MINIO_SECRET_KEY") || "password",
+  MINIO_BUCKET: Deno.env.get("MINIO_BUCKET") || "photo",
 };

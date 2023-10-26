@@ -57,3 +57,4 @@ export { default as CryptoJS } from "npm:crypto-js@4.1.1";
 
 export * as minio from "npm:minio";
 export * as mime from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
+export * as dotenv from "https://deno.land/std@0.204.0/dotenv/mod.ts";

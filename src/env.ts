@@ -6,9 +6,12 @@ import { project_root } from "./paths.ts";
 // ==================================================================== //
 //-> Read .env
 
-await dotenv.load();
-
 const env_file_path = path.join(project_root, ".env");
+
+await dotenv.load({
+  envPath: env_file_path,
+});
+
 if (await fileExist(env_file_path)) {
   const data = await Deno.readTextFile(env_file_path);
   for (const line of data.split("\n")) {

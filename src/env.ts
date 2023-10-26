@@ -1,6 +1,4 @@
-import { dotenv, path } from "../deps.ts";
-import { fileExist } from "./helpers.ts";
-import { project_root } from "./paths.ts";
+import { dotenv } from "../deps.ts";
 
 // ==================================================================== //
 // ==================================================================== //

@@ -1,6 +1,10 @@
 import { minio } from "../deps.ts";
 import { Minio } from "./env.ts";
 
+export const readableToBuffer = (read: globalThis.ReadableStream) =>
+  new Promise((resolve, reject) => {
+  });
+
 export const minioClient = async () => {
   const cli = new minio.Client({
     endPoint: Minio.MINIO_URL,

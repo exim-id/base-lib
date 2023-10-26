@@ -1,4 +1,6 @@
-import { dotenv } from "../deps.ts";
+import { dotenv, path } from "../deps.ts";
+import { fileExist } from "./helpers.ts";
+import { project_root } from "./paths.ts";
 
 // ==================================================================== //
 // ==================================================================== //
@@ -6,14 +8,14 @@ import { dotenv } from "../deps.ts";
 
 await dotenv.load();
 
-/* const env_file_path = path.join(project_root, ".env");
+const env_file_path = path.join(project_root, ".env");
 if (await fileExist(env_file_path)) {
   const data = await Deno.readTextFile(env_file_path);
   for (const line of data.split("\n")) {
     const [key, value] = line.split("=");
     if (key && value) Deno.env.set(key.trim(), value.trim());
   }
-} */
+}
 
 // ==================================================================== //
 // ==================================================================== //

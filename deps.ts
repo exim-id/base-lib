@@ -56,3 +56,4 @@ export * as nodeCron from "npm:node-cron@3.0.2";
 export { default as CryptoJS } from "npm:crypto-js@4.1.1";
 
 export * as minio from "npm:minio";
+export * as mime from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";

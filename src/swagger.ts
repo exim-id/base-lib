@@ -20,6 +20,9 @@ export const createSwaggerJson = async () => {
     ], doc);
     if (!result.success) return false;
     return result.data;
+  } else if (await fileExist(swagger_json_file)) {
+    const swagger_json_text = await Deno.readTextFile(swagger_json_file);
+    return JSON.parse(swagger_json_text);
   }
   return false;
 };

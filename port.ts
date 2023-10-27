@@ -6,74 +6,74 @@ export default {
   internal: {
     // basic service...
     auth: {
-      api: 3000,
-      grpc: 30000,
-    },
-    user: {
       api: 3010,
       grpc: 30010,
     },
-    audit: {
+    user: {
       api: 3020,
       grpc: 30020,
+    },
+    audit: {
+      api: 3030,
+      grpc: 30030,
     },
 
     // business service...
     subscriber: {
-      api: 3030,
-      grpc: 30030,
-    },
-    report: {
       api: 3040,
       grpc: 30040,
+    },
+    report: {
+      api: 3050,
+      grpc: 30050,
     },
   },
   client: {
     // basic service...
     auth: {
-      api: 4000,
-      grpc: 40000,
-    },
-    user: {
       api: 4010,
       grpc: 40010,
     },
-    audit: {
+    user: {
       api: 4020,
       grpc: 40020,
     },
-    notification: {
+    audit: {
       api: 4030,
+      grpc: 40030,
     },
     report: {
       api: 4040,
       grpc: 40040,
     },
+    notification: {
+      api: 4050,
+    },
 
     // business service...
     master: {
-      api: 4050,
-      grpc: 40050,
-    },
-    finance: {
       api: 4060,
       grpc: 40060,
     },
-    marketing: {
+    finance: {
       api: 4070,
       grpc: 40070,
     },
-    inventory: {
+    marketing: {
       api: 4080,
       grpc: 40080,
     },
-    manufacture: {
+    inventory: {
       api: 4090,
       grpc: 40090,
     },
-    stream: {
+    manufacture: {
       api: 4100,
       grpc: 40100,
+    },
+    stream: {
+      api: 4110,
+      grpc: 40110,
     },
   },
 };

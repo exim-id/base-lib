@@ -8,22 +8,27 @@ import {
   swagger_ui_standalone_preset_js,
 } from "../file_cache.ts";
 import { modules_dir, swagger_json_file } from "./paths.ts";
-import { SwaggerEnv } from "./env.ts";
+import { Server, SwaggerEnv } from "./env.ts";
 import { fileExist } from "./helpers.ts";
 
 import swaggerAutogen from "npm:swagger-autogen@2.23.1";
 
 export const createSwaggerJson = async () => {
+  if (Server.isProduction) return false;
+
   if (await fileExist(`${modules_dir}/index.ts`)) {
     const result: any = await swaggerAutogen(swagger_json_file, [
       `${modules_dir}/index.ts`,
     ], doc);
     if (!result.success) return false;
     return result.data;
-  } else if (await fileExist(swagger_json_file)) {
+  }
+
+  if (await fileExist(swagger_json_file)) {
     const swagger_json_text = await Deno.readTextFile(swagger_json_file);
     return JSON.parse(swagger_json_text);
   }
+
   return false;
 };
 

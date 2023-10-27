@@ -30,7 +30,7 @@ export const zodValidate =
           message: "Validation error",
           data: validationErrors,
         });
-        return res.setStatus(response.statusCode).json(response);
+        return res.status(response.statusCode).json(response);
       } else {
         next(error);
       }

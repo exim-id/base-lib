@@ -1,5 +1,4 @@
 import { dotenv, path } from "../deps.ts";
-import { fileExist } from "./helpers.ts";
 import { project_root } from "./paths.ts";
 
 // ==================================================================== //
@@ -12,14 +11,6 @@ await dotenv.load({
   envPath: env_file_path,
   allowEmptyValues: true,
 });
-
-if (await fileExist(env_file_path)) {
-  const data = await Deno.readTextFile(env_file_path);
-  for (const line of data.split("\n")) {
-    const [key, value] = line.split("=");
-    if (key && value) Deno.env.set(key.trim(), value.trim());
-  }
-}
 
 // ==================================================================== //
 // ==================================================================== //

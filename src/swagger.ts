@@ -88,7 +88,7 @@ export const route = async (app: Application) => {
       if (file == "swagger-ui-standalone-preset.js") {
         return res.send(swagger_ui_standalone_preset_js);
       }
-      return res.setStatus(Status.NotFound).send("not found...");
+      return res.status(Status.NotFound).send("not found...");
     });
   }
 };

@@ -11,20 +11,21 @@ export { v4 as uuidV4 } from "npm:uuid@9.0.0";
 export * as base64 from "https://deno.land/std@0.203.0/encoding/base64.ts";
 
 //-> Server RestAPI
+// @deno-types="npm:@types/express@4.17.15"
+export {
+  default as express,
+  json,
+  Router,
+  urlencoded,
+} from "npm:express@4.18.2";
 export type {
   Application,
   NextFunction,
-  OpineRequest as Request,
-  OpineResponse as Response,
-} from "https://deno.land/x/opine@2.3.4/mod.ts";
-export { Status } from "https://deno.land/x/opine@2.3.4/deps.ts";
-export {
-  json,
-  opine,
-  Router,
-  serveStatic,
-  urlencoded,
-} from "https://deno.land/x/opine@2.3.4/mod.ts";
+  Request,
+  RequestHandler,
+  Response,
+} from "npm:express@4.18.2";
+export * from "./src/httpStatus.ts";
 
 //-> Server gRPC
 export { GrpcServer } from "https://deno.land/x/grpc_basic@0.4.7/server.ts";

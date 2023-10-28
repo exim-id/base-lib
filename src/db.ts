@@ -3,47 +3,6 @@
 import { mongodb, mongoose, Mutex } from "../deps.ts";
 import { Mongo } from "./env.ts";
 
-export const mongooseConnection = async <T>(
-  exec: (_: typeof mongoose) => Promise<T>,
-) => {
-  const cli = await mongoose.connect(Mongo.url, {
-    auth: { username: Mongo.dbUser, password: Mongo.dbPass },
-    dbName: Mongo.dbName,
-  });
-  try {
-    return await exec(cli);
-  } finally {
-    await cli.connection.close();
-  }
-};
-
-export const mongooseTransaction = async <T>(
-  exec: (_: typeof mongoose) => Promise<T>,
-) => {
-  const mu = new Mutex();
-  await mu.acquire();
-  const cli = await mongoose.connect(Mongo.url, {
-    auth: { username: Mongo.dbUser, password: Mongo.dbPass },
-    dbName: Mongo.dbName,
-  });
-  try {
-    const session = await cli.startSession();
-    try {
-      const result = await exec(cli);
-      await session.commitTransaction();
-      return result;
-    } catch (e) {
-      await session.abortTransaction();
-      throw e;
-    } finally {
-      await session.endSession();
-      mu.release();
-    }
-  } finally {
-    await cli.connection.close();
-  }
-};
-
 export const dbTransaction = async <T>(
   exec = (_: mongodb.Db): Promise<T> => {
     const example: any = true;
@@ -52,7 +11,7 @@ export const dbTransaction = async <T>(
 ): Promise<T> => {
   const mu = new Mutex();
   await mu.acquire();
-  const cli = cliCreate();
+  const cli = dbCliCreate();
   try {
     await cli.connect();
     const session = cli.startSession();
@@ -79,7 +38,7 @@ export const dbConnection = async <T>(
     return example;
   },
 ): Promise<T> => {
-  const cli = cliCreate();
+  const cli = dbCliCreate();
   try {
     await cli.connect();
     return await exec(cli.db(Mongo.dbName));
@@ -88,7 +47,7 @@ export const dbConnection = async <T>(
   }
 };
 
-const cliCreate = () => {
+const dbCliCreate = () => {
   return new mongodb.MongoClient(
     Mongo.url,
     Mongo.dbUser && Mongo.dbPass
@@ -131,6 +90,92 @@ export const dbPaginate = async (
       .skip((use_page - 1) * use_show)
       .limit(use_show)
       .toArray();
+
+    return {
+      data,
+      meta: {
+        pagination: {
+          current_page: use_page,
+          per_page: use_show,
+          total: totalDocuments,
+          last_page: totalPage,
+        },
+      },
+    };
+  });
+};
+
+// =================================================================
+
+export const mongooseConnection = async <T>(
+  exec: (_: typeof mongoose) => Promise<T>,
+) => {
+  const cli = await mongooseCliCreate();
+  try {
+    return await exec(cli);
+  } finally {
+    await cli.connection.close();
+  }
+};
+
+export const mongooseTransaction = async <T>(
+  exec: (_: typeof mongoose) => Promise<T>,
+) => {
+  const mu = new Mutex();
+  await mu.acquire();
+  const cli = await mongooseCliCreate();
+  try {
+    const session = await cli.startSession();
+    try {
+      const result = await exec(cli);
+      await session.commitTransaction();
+      return result;
+    } catch (e) {
+      await session.abortTransaction();
+      throw e;
+    } finally {
+      await session.endSession();
+      mu.release();
+    }
+  } finally {
+    await cli.connection.close();
+  }
+};
+
+const mongooseCliCreate = () =>
+  mongoose.connect(Mongo.url, {
+    auth: { username: Mongo.dbUser, password: Mongo.dbPass },
+    dbName: Mongo.dbName,
+  });
+
+export const mongoosePaginate = async (
+  getModel: (_: typeof mongoose) => mongoose.Model<mongoose.Document>,
+  query: object,
+  show?: string,
+  page?: string,
+  sort?: object,
+) => {
+  let use_show = 10;
+  if (show) {
+    use_show = parseInt(show, 10);
+  }
+  let use_page = 1;
+  if (page) {
+    use_page = parseInt(page, 10);
+  }
+
+  return await mongooseConnection(async () => {
+    const model = getModel(mongoose);
+
+    const totalDocuments = await model.countDocuments(query);
+    const totalPage = Math.ceil(totalDocuments / use_show);
+
+    const data = await model
+      .find(query)
+      .sort(sort)
+      .skip((use_page - 1) * use_show)
+      .limit(use_show)
+      .exec();
 
     return {
       data,

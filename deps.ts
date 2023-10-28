@@ -49,12 +49,13 @@ export { GrpcServer } from "https://deno.land/x/grpc_basic@0.4.7/server.ts";
 export * as gRPC from "https://deno.land/x/grpc_basic@0.4.7/client.ts";
 
 //-> Database
-export * as mongodb from "npm:mongodb";
+export * as mongodb from "npm:mongodb@6.2.0";
+export * as mongoose from "npm:mongoose@7.5.3";
 export { Mutex } from "https://deno.land/x/async@v2.0.2/mutex.ts";
 
 //-> Validator & Key Access
-export type { AnyZodObject } from "npm:zod";
-export { z, ZodError } from "npm:zod";
+export type { AnyZodObject } from "npm:zod@3.22.4";
+export { z, ZodError } from "npm:zod@3.22.4";
 // @deno-types="npm:@types/jsonwebtoken@9.0.0"
 export * as jsonwebtoken from "npm:jsonwebtoken@9.0.2";
 
@@ -73,9 +74,11 @@ export * as nodeCron from "npm:node-cron@3.0.2";
 // @deno-types="npm:@types/crypto-js@4.1.2"
 export { default as CryptoJS } from "npm:crypto-js@4.1.1";
 
-export * as minio from "npm:minio";
+export * as minio from "npm:minio@7.1.3";
 export * as mime from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 export * as dotenv from "https://deno.land/std@0.204.0/dotenv/mod.ts";
 export * from "https://deno.land/std@0.177.0/node/stream.ts";
 export * from "https://deno.land/std@0.177.0/node/buffer.ts";
 export { stub } from "https://deno.land/x/mock@0.15.2/mod.ts";
+// @deno-types="npm:@types/lodash@4.14.200"
+export { default as _ } from "npm:lodash@4.17.21";

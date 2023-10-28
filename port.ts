@@ -79,5 +79,6 @@ export default {
       api: 4120,
       grpc: 40120,
     },
+    scheduler: {},
   },
 };

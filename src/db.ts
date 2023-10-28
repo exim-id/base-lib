@@ -1,7 +1,48 @@
 // deno-lint-ignore-file no-explicit-any
 
-import { mongodb, Mutex } from "../deps.ts";
+import { mongodb, mongoose, Mutex } from "../deps.ts";
 import { Mongo } from "./env.ts";
+
+export const mongooseConnection = async <T>(
+  exec: (_: typeof mongoose) => Promise<T>,
+) => {
+  const cli = await mongoose.connect(Mongo.url, {
+    auth: { username: Mongo.dbUser, password: Mongo.dbPass },
+    dbName: Mongo.dbName,
+  });
+  try {
+    return await exec(cli);
+  } finally {
+    await cli.connection.close();
+  }
+};
+
+export const mongooseTransaction = async <T>(
+  exec: (_: typeof mongoose) => Promise<T>,
+) => {
+  const mu = new Mutex();
+  await mu.acquire();
+  const cli = await mongoose.connect(Mongo.url, {
+    auth: { username: Mongo.dbUser, password: Mongo.dbPass },
+    dbName: Mongo.dbName,
+  });
+  try {
+    const session = await cli.startSession();
+    try {
+      const result = await exec(cli);
+      await session.commitTransaction();
+      return result;
+    } catch (e) {
+      await session.abortTransaction();
+      throw e;
+    } finally {
+      await session.endSession();
+      mu.release();
+    }
+  } finally {
+    await cli.connection.close();
+  }
+};
 
 export const dbTransaction = async <T>(
   exec = (_: mongodb.Db): Promise<T> => {

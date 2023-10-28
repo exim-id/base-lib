@@ -78,4 +78,3 @@ export * as mime from "https://deno.land/x/mimetypes@v1.0.0/mod.ts";
 export * as dotenv from "https://deno.land/std@0.204.0/dotenv/mod.ts";
 export * from "https://deno.land/std@0.177.0/node/stream.ts";
 export * from "https://deno.land/std@0.177.0/node/buffer.ts";
-export * as dmm from "https://deno.land/x/dmm@v2.1.2/mod.ts";

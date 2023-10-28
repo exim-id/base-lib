@@ -75,5 +75,9 @@ export default {
       api: 4110,
       grpc: 40110,
     },
+    sampling: {
+      api: 4120,
+      grpc: 40120,
+    },
   },
 };

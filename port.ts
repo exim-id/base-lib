@@ -38,6 +38,7 @@ export default {
       grpc: 30050,
     },
   },
+
   client: {
     // basic service...
     auth: {

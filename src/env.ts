@@ -1,5 +1,6 @@
 import { dotenv, path } from "../deps.ts";
 import { project_root } from "./paths.ts";
+import Port from "../port.ts";
 
 // ==================================================================== //
 // ==================================================================== //
@@ -23,13 +24,12 @@ export const Server = {
   isProduction: String(ENVIRONMENT).includes("production"),
   isDevelopment: String(ENVIRONMENT).includes("development"),
   isLocal: String(ENVIRONMENT).includes("local"),
-  port: Number(Deno.env.get("PORT") || "8080"),
   tz: Deno.env.get("TZ") || "Asia/Jakarta",
-  restPort: parseInt(Deno.env.get("REST_PORT") || "8080"),
 };
 
 export const SwaggerEnv = {
-  SWAGGER_URL: Deno.env.get("SWAGGER_URL") || `localhost:${Server.port}`,
+  SWAGGER_URL: Deno.env.get("SWAGGER_URL") ||
+    `localhost:${Port.boilerplate.backend.api}`,
 
   APP_NAME: Deno.env.get("APP_NAME") || "app name",
   APP_VERSION: Deno.env.get("APP_VERSION") || "1.0.0",

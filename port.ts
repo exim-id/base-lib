@@ -3,12 +3,6 @@ buat panitia service, untuk handle Docker dan custom docker.
  */
 
 export default {
-  boilerplate: {
-    backend: {
-      api: 4000,
-      grpc: 40000,
-    },
-  },
   example: {
     grpc: 40001,
   },
@@ -40,6 +34,11 @@ export default {
   },
 
   client: {
+    boilerplate: {
+      api: 4000,
+      grpc: 40000,
+    },
+
     // basic service...
     auth: {
       api: 4010,

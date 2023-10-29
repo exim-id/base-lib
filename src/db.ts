@@ -180,3 +180,15 @@ export const mongoosePaginate = async <ID, MODEL>(
     return { page: use_page, size: use_show, pageCount: count, datas: models };
   });
 };
+
+export const insertDocument = async (
+  Model: any,
+  filter: object,
+  document: object
+) => {
+  const isDocExist = await Model.findOne(filter);
+  if (isDocExist) {
+    return isDocExist;
+  }
+  return await Model.create(document);
+};

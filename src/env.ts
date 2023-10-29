@@ -29,7 +29,7 @@ export const Server = {
 
 export const SwaggerEnv = {
   SWAGGER_URL: Deno.env.get("SWAGGER_URL") ||
-    `localhost:${Port.boilerplate.backend.api}`,
+    `localhost:${Port.client.boilerplate.api}`,
 
   APP_NAME: Deno.env.get("APP_NAME") || "app name",
   APP_VERSION: Deno.env.get("APP_VERSION") || "1.0.0",

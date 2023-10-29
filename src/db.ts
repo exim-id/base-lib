@@ -184,7 +184,7 @@ export const mongoosePaginate = async <ID, MODEL>(
 export const insertDocument = async (
   Model: any,
   filter: object,
-  document: object
+  document: object,
 ) => {
   const isDocExist = await Model.findOne(filter);
   if (isDocExist) {

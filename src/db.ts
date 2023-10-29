@@ -148,13 +148,20 @@ const mongooseCliCreate = () =>
     dbName: Mongo.dbName,
   });
 
-export const mongoosePaginate = async (
-  getModel: (_: typeof mongoose) => mongoose.Model<mongoose.Document>,
-  query: object,
+export interface Paginated<T> {
+  page: number;
+  size: number;
+  pageCount: number;
+  datas: T[] | T;
+}
+
+export const mongoosePaginate = async <ID, MODEL>(
   show?: string,
   page?: string,
-  sort?: object,
-) => {
+  idsGetter = (_: typeof mongoose): Promise<ID[]> => new Promise((_, __) => {}),
+  modelsGetter = (_: ID[], __: typeof mongoose): Promise<MODEL[]> =>
+    new Promise((_, __) => {}),
+): Promise<Paginated<MODEL>> => {
   let use_show = 10;
   if (show) {
     use_show = parseInt(show, 10);
@@ -163,30 +170,11 @@ export const mongoosePaginate = async (
   if (page) {
     use_page = parseInt(page, 10);
   }
-
-  return await mongooseConnection(async () => {
-    const model = getModel(mongoose);
-
-    const totalDocuments = await model.countDocuments(query);
-    const totalPage = Math.ceil(totalDocuments / use_show);
-
-    const data = await model
-      .find(query)
-      .sort(sort)
-      .skip((use_page - 1) * use_show)
-      .limit(use_show)
-      .exec();
-
-    return {
-      data,
-      meta: {
-        pagination: {
-          current_page: use_page,
-          per_page: use_show,
-          total: totalDocuments,
-          last_page: totalPage,
-        },
-      },
-    };
+  return await mongooseConnection(async (db) => {
+    let ids = await idsGetter(db);
+    const count = Math.ceil(ids.length / use_show);
+    ids = ids.slice(use_show * (use_page - 1), use_page * use_show);
+    const models = await modelsGetter(ids, db);
+    return { page: use_page, size: use_show, pageCount: count, datas: models };
   });
 };

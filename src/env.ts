@@ -24,6 +24,7 @@ export const Server = {
   isProduction: String(ENVIRONMENT).includes("production"),
   isDevelopment: String(ENVIRONMENT).includes("development"),
   isLocal: String(ENVIRONMENT).includes("local"),
+  hostname: Deno.env.get("HOSTNAME") || "localhost",
   tz: Deno.env.get("TZ") || "Asia/Jakarta",
 };
 

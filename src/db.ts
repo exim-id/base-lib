@@ -51,16 +51,11 @@ const dbCliCreate = () => {
   const localAddress = String(Mongo.url).split("//")[1].split(":")[0]
   return new mongodb.MongoClient(
     Mongo.url,
-    Mongo.dbUser && Mongo.dbPass
-      ? {
-        auth: { password: Mongo.dbPass, username: Mongo.dbUser },
-        family: 6,
-        hints: 0,
-        localAddress,
-        localPort: 27017,
-        lookup: () => {},
-      }
-      : undefined,
+    {
+      auth: { password: Mongo.dbPass, username: Mongo.dbUser },
+      family: 6,
+      hints: 0,
+    },
   );
 };
 

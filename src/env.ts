@@ -18,7 +18,11 @@ if (await fileExist(".env")) {
   const data = await Deno.readTextFile(".env");
   for (const line of data.split("\n")) {
     const [key, value] = line.split("=");
-    if(!Deno.env.get(key) && key && value) Deno.env.set(key.trim(), value.trim());
+    try {
+      Deno.env.get(key);
+    } catch (error) {
+      if (key && value) Deno.env.set(key.trim(), value.trim());
+    }
   }
 }
 

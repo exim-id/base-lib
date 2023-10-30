@@ -35,7 +35,7 @@ export default {
 
   client: {
     boilerplate: {
-      api: 4000,
+      api: 4001,
       grpc: 40000,
     },
 

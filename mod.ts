@@ -1,6 +1,6 @@
 export * from "./deps.ts";
 export * from "./file_cache.ts";
-export { default as Port } from "./port.ts";
+export { * as Port } from "./port.ts";
 
 export * from "./src/db.ts";
 export * from "./src/env.ts";

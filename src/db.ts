@@ -48,10 +48,12 @@ export const dbConnection = async <T>(
 };
 
 const dbCliCreate = () => {
-  const localAddress = String(Mongo.url).split("//")[1].split(":")[0]
+  const localAddress = String(Mongo.url).split("//")[1].split(":")[0];
+  console.log({ localAddress });
   return new mongodb.MongoClient(
     Mongo.url,
     {
+      localAddress,
       auth: { password: Mongo.dbPass, username: Mongo.dbUser },
       family: 6,
       hints: 0,

@@ -4,7 +4,7 @@ buat panitia service, untuk handle Docker dan custom docker.
 
 export default {
   example: {
-    grpc: 40001,
+    grpc: 40000,
   },
 
   internal: {
@@ -36,7 +36,7 @@ export default {
   client: {
     boilerplate: {
       api: 4001,
-      grpc: 40000,
+      grpc: 40001,
     },
 
     // basic service...

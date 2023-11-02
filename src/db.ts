@@ -48,6 +48,7 @@ export const dbConnection = async <T>(
 };
 
 const dbCliCreate = () => {
+  console.log(`Mongodb URL : ${Mongo.url}`);
   return new mongodb.MongoClient(
     Mongo.url,
     {

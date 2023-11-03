@@ -62,3 +62,8 @@ export function decode(encrypted: string): string | false {
 
   return layer_1;
 }
+
+export const hashing = (value: string) => {
+  const result = CryptoJS.MD5(value);
+  return result.toString(CryptoJS.enc.Base64);
+};
